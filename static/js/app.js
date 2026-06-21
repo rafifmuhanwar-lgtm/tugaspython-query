@@ -82,12 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Update UI Counters
-            queueCount.innerText = `${count}/10`;
-            const percentage = (count / 10) * 100;
+            queueCount.innerText = `${count}/4`;
+            const percentage = (count / 4) * 100;
             queueProgressBar.style.width = `${percentage}%`;
             
             // Logika Visual saat Queue Penuh
-            if(count >= 10) {
+            if(count >= 4) {
                 queueProgressBar.classList.remove('bg-primary-val');
                 queueProgressBar.classList.add('bg-success');
                 queueCount.classList.remove('bg-danger');
