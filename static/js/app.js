@@ -47,8 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Query untuk mengambil player dengan status 'waiting' diurutkan berdasarkan join_time (FIFO)
         const q = query(
             collection(db, "queue"), 
-            where("status", "==", "waiting"),
-            orderBy("join_time", "asc")
+            where("status", "==", "waiting")
         );
 
         let isMatchFound = false;
@@ -60,15 +59,23 @@ document.addEventListener("DOMContentLoaded", () => {
             queueTableBody.innerHTML = "";
             let count = 0;
             
+            // Masukkan data ke array untuk di-sort (menghindari error Composite Index Firebase)
+            let playersData = [];
             snapshot.forEach((doc) => {
+                playersData.push(doc.data());
+            });
+            
+            // Sort berdasarkan waktu join (FIFO)
+            playersData.sort((a, b) => new Date(a.join_time) - new Date(b.join_time));
+            
+            playersData.forEach((player) => {
                 count++;
-                const data = doc.data();
                 const row = `
                     <tr>
                         <td class="fw-bold text-muted">${count}</td>
-                        <td class="fw-bold text-white"><i class="fas fa-user-circle me-2 text-primary-val"></i>${data.username}</td>
-                        <td><span class="badge bg-secondary px-2 py-1">${data.rank}</span></td>
-                        <td><span class="text-warning fw-bold small"><i class="fas fa-circle-notch fa-spin me-2"></i> ${data.status.toUpperCase()}</span></td>
+                        <td class="fw-bold text-white"><i class="fas fa-user-circle me-2 text-primary-val"></i>${player.username}</td>
+                        <td><span class="badge bg-secondary px-2 py-1">${player.rank}</span></td>
+                        <td><span class="text-warning fw-bold small"><i class="fas fa-circle-notch fa-spin me-2"></i> ${player.status.toUpperCase()}</span></td>
                     </tr>
                 `;
                 queueTableBody.innerHTML += row;

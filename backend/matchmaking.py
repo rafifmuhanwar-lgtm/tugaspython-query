@@ -11,13 +11,20 @@ def join_queue_logic(username, rank):
         'status': 'waiting'
     })
 
-    # Trigger FIFO logic
-    waiting_players = queue_ref.where('status', '==', 'waiting').order_by('join_time').limit(4).stream()
-    players = []
-    docs = []
+    # Ambil semua data waiting (tanpa order_by dari Firebase agar tidak butuh Composite Index)
+    waiting_players = queue_ref.where('status', '==', 'waiting').stream()
+    players_data = []
     for doc in waiting_players:
-        players.append(doc.to_dict())
-        docs.append(doc.id)
+        p = doc.to_dict()
+        p['doc_id'] = doc.id
+        players_data.append(p)
+
+    # Sort manual berdasarkan join_time (FIFO) di Python
+    players_data.sort(key=lambda x: x.get('join_time', ''))
+
+    # Ambil 4 teratas
+    players = players_data[:4]
+    docs = [p['doc_id'] for p in players]
 
     # Cek jika sudah mencapai 4 player (FIFO)
     if len(players) >= 4:
