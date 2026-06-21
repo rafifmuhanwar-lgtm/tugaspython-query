@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="col-md-6 col-lg-4">
+        <div class="text-center mb-5">
+            <h1 class="text-primary-val fw-bold mb-0" style="font-size: 4.5rem; text-shadow: 0 0 30px rgba(255,70,85,0.4); letter-spacing: 4px;">VALORRANT</h1>
+            <p class="text-muted fw-bold mt-2" style="letter-spacing: 5px; font-family: 'Oswald', sans-serif;">MATCHMAKING SIMULATOR</p>
+        </div>
+
+        <div class="val-card p-5">
+            <h3 class="fw-bold mb-5 text-white text-center" style="letter-spacing: 2px;">SIGN IN TO YOUR ACCOUNT</h3>
+            
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="mb-4 text-start">
+                    <label class="form-label val-label">USERNAME</label>
+                    <input type="text" name="username" class="form-control val-input" placeholder="Enter your username" required autocomplete="off">
+                </div>
+                <div class="mb-5 text-start">
+                    <label class="form-label val-label">PASSWORD</label>
+                    <input type="password" name="password" class="form-control val-input" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="btn val-btn w-100 py-3 mb-4 fs-5"><i class="fas fa-sign-in-alt me-2"></i> LOGIN</button>
+            </form>
+            
+            <div class="text-center pt-3 border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+                <p class="text-muted mb-2 small">New to the game?</p>
+                <a href="{{ url_for('register') }}" class="text-primary-val text-decoration-none fw-bold fs-5" style="font-family: 'Oswald', sans-serif; letter-spacing: 1px; transition: 0.3s;">CREATE ACCOUNT</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

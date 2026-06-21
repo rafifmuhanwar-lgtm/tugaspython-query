@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Firebase Credentials - JANGAN PERNAH DI-UPLOAD KE GITHUB!
+backend/serviceAccountKey.json
+serviceAccountKey.json
+
+# Vercel
+.vercel/

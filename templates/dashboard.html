@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-5 border-bottom pb-4" style="border-color: rgba(255,255,255,0.05) !important;">
+    <div>
+        <h1 class="fw-bold mb-2 display-4 text-white">WELCOME BACK, <span class="text-primary-val">{{ username }}</span></h1>
+        <h5 class="text-muted fw-bold" style="font-family: 'Oswald', sans-serif; letter-spacing: 2px;">
+            CURRENT RANK: <span class="text-white badge bg-secondary px-3 py-2 ms-2 fs-6"><i class="fas fa-medal text-warning me-2"></i>{{ rank }}</span>
+        </h5>
+    </div>
+</div>
+
+<div class="row mb-5 g-4">
+    <div class="col-md-3 col-6">
+        <div class="val-card text-center stat-card h-100 p-4">
+            <h1 class="text-primary-val fw-bold display-3 mb-2">{{ stats.total_users }}</h1>
+            <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">TOTAL USERS</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="val-card text-center stat-card h-100 p-4">
+            <h1 class="text-primary-val fw-bold display-3 mb-2">{{ stats.total_matches }}</h1>
+            <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">TOTAL MATCHES</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="val-card text-center stat-card h-100 p-4">
+            <h1 class="text-primary-val fw-bold display-3 mb-2">{{ stats.total_queue }}</h1>
+            <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">PLAYERS IN QUEUE</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="val-card text-center stat-card h-100 p-4">
+            <h1 class="text-primary-val fw-bold display-3 mb-2">{{ stats.total_online }}</h1>
+            <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">ONLINE PLAYERS</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-xl-8">
+        <div class="val-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold text-white mb-0" style="letter-spacing: 1px;"><i class="fas fa-chart-line text-primary-val me-3"></i>SYSTEM ACTIVITY OVERVIEW</h4>
+            </div>
+            <div style="height: 300px; width: 100%;">
+                <canvas id="statsChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="val-card h-100 d-flex flex-column justify-content-center align-items-center text-center p-5 relative" style="overflow: hidden; background: linear-gradient(180deg, rgba(31,41,55,0.4) 0%, rgba(255,70,85,0.1) 100%); border-color: rgba(255,70,85,0.3);">
+            <div style="position: absolute; top: -20px; right: -20px; opacity: 0.05; font-size: 15rem;">
+                <i class="fas fa-crosshairs"></i>
+            </div>
+            
+            <i class="fas fa-gamepad fa-4x text-primary-val mb-4 z-index-1 pulse-animation" style="box-shadow: none;"></i>
+            <h2 class="mb-3 fw-bold text-white z-index-1" style="letter-spacing: 2px;">READY FOR BATTLE?</h2>
+            <p class="text-light mb-5 z-index-1" style="opacity: 0.8;">Join the queue and test your skills against other agents.</p>
+            <a href="{{ url_for('queue') }}" class="btn val-btn btn-lg w-100 z-index-1 py-3 fs-5 pulse-animation">
+                <i class="fas fa-play me-2"></i> JOIN QUEUE
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script id="dashboard-data" type="application/json">
+    {
+        "total_users": {{ stats.total_users }},
+        "total_matches": {{ stats.total_matches }},
+        "total_queue": {{ stats.total_queue }},
+        "total_online": {{ stats.total_online }}
+    }
+</script>
+<script>
+    const statsData = JSON.parse(document.getElementById('dashboard-data').textContent);
+    
+    const ctx = document.getElementById('statsChart').getContext('2d');
+    
+    // Gradient for the bar chart
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(255, 70, 85, 0.8)');
+    gradient.addColorStop(1, 'rgba(255, 70, 85, 0.1)');
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Users', 'Matches Played', 'In Queue', 'Online'],
+            datasets: [{
+                label: 'System Metrics',
+                data: [statsData.total_users, statsData.total_matches, statsData.total_queue, statsData.total_online],
+                backgroundColor: gradient,
+                borderColor: '#ff4655',
+                borderWidth: 2,
+                borderRadius: 6,
+                hoverBackgroundColor: '#ff4655'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.05)', drawBorder: false },
+                    ticks: { color: '#9ca3af', font: { family: 'Inter', size: 12 } }
+                },
+                x: {
+                    grid: { display: false, drawBorder: false },
+                    ticks: { color: '#ffffff', font: { family: 'Oswald', size: 14, weight: 'bold' } }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 25, 35, 0.9)',
+                    titleFont: { family: 'Oswald', size: 16 },
+                    bodyFont: { family: 'Inter', size: 14 },
+                    padding: 12,
+                    borderColor: '#ff4655',
+                    borderWidth: 1
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

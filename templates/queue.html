@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-xl-11">
+        <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-4" style="border-color: rgba(255,255,255,0.05) !important;">
+            <div>
+                <h1 class="fw-bold mb-1 display-4 text-white">MATCHMAKING <span class="text-primary-val">QUEUE</span></h1>
+                <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px;">ALGORITHM: <span class="text-white">FIRST IN FIRST OUT (FIFO)</span></p>
+            </div>
+            <button id="joinQueueBtn" class="btn val-btn btn-lg pulse-animation py-3 px-5 fs-5"><i class="fas fa-play me-2"></i> JOIN QUEUE</button>
+        </div>
+
+        <div class="val-card p-0 overflow-hidden" style="border-top-width: 4px;">
+            <div class="d-flex justify-content-between align-items-center p-4 border-bottom" style="border-color: rgba(255,255,255,0.05) !important; background: rgba(0,0,0,0.2);">
+                <h4 class="mb-0 fw-bold text-white" style="letter-spacing: 1px;">
+                    <i class="fas fa-users me-3 text-primary-val"></i>WAITING PLAYERS 
+                    <span id="queueCount" class="badge bg-danger ms-3 px-3 py-2 fs-6">0/10</span>
+                </h4>
+                <div class="spinner-grow text-primary-val" role="status" id="queueSpinner" style="display:none; width: 1.5rem; height: 1.5rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-borderless table-hover val-table mb-0">
+                    <thead style="background-color: rgba(15,25,35,0.8);">
+                        <tr>
+                            <th width="10%" class="ps-5">NO</th>
+                            <th width="40%">AGENT NAME</th>
+                            <th width="30%">CURRENT RANK</th>
+                            <th width="20%" class="pe-5">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="queueTableBody">
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-5">
+                                <i class="fas fa-circle-notch fa-spin fa-2x mb-3 text-primary-val"></i>
+                                <h5 class="fw-bold" style="font-family: 'Oswald', sans-serif; letter-spacing: 1px;">CONNECTING TO SERVER...</h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="progress" style="height: 6px; background-color: #1f2937; border-radius: 0;">
+                <div id="queueProgressBar" class="progress-bar bg-primary-val" role="progressbar" style="width: 0%; transition: width 0.5s ease;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $('#joinQueueBtn').click(function() {
+        var btn = $(this);
+        btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> JOINING...');
+        btn.removeClass('pulse-animation');
+        
+        $.ajax({
+            url: '/join_queue',
+            type: 'POST',
+            success: function(response) {
+                if(response.status === 'success') {
+                    $('#queueSpinner').show();
+                    btn.html('<i class="fas fa-check-circle me-2"></i> IN QUEUE');
+                    btn.removeClass('val-btn').css({
+                        'background-color': 'rgba(255,255,255,0.1)',
+                        'border-color': 'rgba(255,255,255,0.1)',
+                        'color': '#ffffff'
+                    });
+                }
+            },
+            error: function(err) {
+                alert(err.responseJSON.message || 'Error joining queue');
+                btn.prop('disabled', false).html('<i class="fas fa-play me-2"></i> JOIN QUEUE');
+                btn.addClass('pulse-animation');
+            }
+        });
+    });
+</script>
+{% endblock %}

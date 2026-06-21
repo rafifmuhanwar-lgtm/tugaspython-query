@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-5 border-bottom pb-4" style="border-color: rgba(255,255,255,0.05) !important;">
+    <h1 class="fw-bold mb-1 display-4 text-white">MATCH <span class="text-primary-val">HISTORY</span></h1>
+    <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px;">REVIEW YOUR PAST BATTLES</p>
+</div>
+
+<div class="row g-4">
+    {% for match in matches %}
+    <div class="col-xl-6">
+        <div class="val-card h-100 p-0 overflow-hidden" style="border-top: 4px solid #1f2937; transition: border-color 0.3s ease;">
+            <!-- Background accent -->
+            <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,70,85,0.1) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+            
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center p-4 border-bottom" style="border-color: rgba(255,255,255,0.05) !important; background: rgba(0,0,0,0.2);">
+                <h4 class="fw-bold text-white mb-0" style="letter-spacing: 1px;">MATCH <span class="text-primary-val">#{{ match.match_id }}</span></h4>
+                <span class="badge bg-success px-3 py-2" style="letter-spacing: 2px; font-size: 0.8rem;"><i class="fas fa-check me-2"></i>FINISHED</span>
+            </div>
+            
+            <!-- Teams -->
+            <div class="row text-center p-4 g-0 align-items-center">
+                <!-- Attacker -->
+                <div class="col-5">
+                    <h5 class="text-danger fw-bold mb-4" style="letter-spacing: 3px;"><i class="fas fa-fire me-2"></i>ATTACKERS</h5>
+                    <ul class="list-unstyled">
+                        {% for player in match.team_a %}
+                        <li class="mb-3 text-white">
+                            <div class="d-inline-flex align-items-center px-3 py-1 rounded" style="background: rgba(255,70,85,0.1); border: 1px solid rgba(255,70,85,0.2);">
+                                <i class="fas fa-user text-danger me-2 small"></i> <span class="fw-bold font-monospace">{{ player }}</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- VS -->
+                <div class="col-2 d-flex flex-column justify-content-center position-relative">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; font-size: 6rem;"><i class="fas fa-bolt"></i></div>
+                    <h3 class="text-muted fw-bold fst-italic position-relative z-index-1 mb-0" style="font-family: 'Oswald', sans-serif;">VS</h3>
+                </div>
+
+                <!-- Defender -->
+                <div class="col-5">
+                    <h5 class="text-info fw-bold mb-4" style="letter-spacing: 3px;"><i class="fas fa-shield-alt me-2"></i>DEFENDERS</h5>
+                    <ul class="list-unstyled">
+                        {% for player in match.team_b %}
+                        <li class="mb-3 text-white">
+                            <div class="d-inline-flex align-items-center px-3 py-1 rounded" style="background: rgba(13,202,240,0.1); border: 1px solid rgba(13,202,240,0.2);">
+                                <i class="fas fa-user text-info me-2 small"></i> <span class="fw-bold font-monospace">{{ player }}</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="p-3 px-4 text-end text-muted small fw-bold d-flex justify-content-between align-items-center" style="background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05);">
+                <span><i class="fas fa-map-marker-alt me-2 text-primary-val"></i>ASCENT</span>
+                <span><i class="far fa-clock me-2"></i> {{ match.created_at[:10] }} &bull; {{ match.created_at[11:16] }}</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center py-5 mt-5">
+        <div class="val-card d-inline-block p-5" style="min-width: 400px;">
+            <i class="fas fa-history fa-4x text-muted mb-4 opacity-50"></i>
+            <h3 class="text-white fw-bold mb-3" style="letter-spacing: 2px;">NO MATCHES FOUND</h3>
+            <p class="text-muted mb-4">You haven't participated in any matches yet.</p>
+            <a href="{{ url_for('queue') }}" class="btn val-btn btn-lg w-100">ENTER MATCHMAKING</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    /* Add hover effect for match cards */
+    .val-card:hover {
+        border-top-color: var(--val-red) !important;
+    }
+</style>
+{% endblock %}

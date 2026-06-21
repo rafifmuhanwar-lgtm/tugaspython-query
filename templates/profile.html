@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-5 border-bottom pb-4" style="border-color: rgba(255,255,255,0.05) !important;">
+    <h1 class="fw-bold mb-1 display-4 text-white">PLAYER <span class="text-primary-val">PROFILE</span></h1>
+    <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px;">AGENT DOSSIER & STATISTICS</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-xl-10">
+        <div class="val-card p-0 overflow-hidden">
+            <div class="row g-0 align-items-stretch">
+                <!-- Avatar Section -->
+                <div class="col-md-4 text-center p-5 position-relative d-flex flex-column justify-content-center align-items-center" style="background: rgba(0,0,0,0.3); border-right: 1px solid rgba(255,255,255,0.05);">
+                    <div style="position: absolute; top: 10px; left: 10px; opacity: 0.03; font-size: 15rem; transform: rotate(-15deg); pointer-events: none;"><i class="fas fa-fingerprint"></i></div>
+                    
+                    <div class="position-relative d-inline-block z-index-1 mb-4">
+                        <img src="https://ui-avatars.com/api/?name={{ profile.username }}&background=ff4655&color=fff&size=180&font-size=0.33&bold=true" class="rounded-circle border border-5 border-danger" alt="Profile" style="box-shadow: 0 0 40px rgba(255,70,85,0.4);">
+                    </div>
+                    
+                    <h2 class="fw-bold text-uppercase mb-3 z-index-1 text-white" style="letter-spacing: 2px;">{{ profile.username }}</h2>
+                    <div class="badge px-4 py-2 fs-6 z-index-1" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); letter-spacing: 2px; color: #fff;">
+                        <i class="fas fa-medal me-2 text-warning"></i>{{ profile.rank }}
+                    </div>
+                </div>
+                
+                <!-- Stats Section -->
+                <div class="col-md-8 p-5 position-relative">
+                    <!-- Background Logo -->
+                    <div style="position: absolute; bottom: -50px; right: -50px; opacity: 0.05; font-size: 20rem; pointer-events: none;"><i class="fas fa-chart-pie"></i></div>
+
+                    <h4 class="mb-5 fw-bold text-white border-bottom pb-3" style="letter-spacing: 2px; border-color: rgba(255,255,255,0.1) !important;">
+                        <i class="fas fa-crosshairs me-3 text-primary-val"></i>COMBAT RECORD
+                    </h4>
+                    
+                    <div class="row g-4 mb-4 z-index-1 position-relative">
+                        <div class="col-sm-6">
+                            <div class="p-4 rounded h-100" style="background: rgba(15,25,35,0.6); border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">MATCHES PLAYED</p>
+                                    <i class="fas fa-gamepad text-primary-val opacity-50"></i>
+                                </div>
+                                <h1 class="fw-bold text-white mb-0 display-5">{{ profile.total_match }}</h1>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-4 rounded h-100" style="background: rgba(15,25,35,0.6); border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">WIN RATE</p>
+                                    <i class="fas fa-trophy text-success opacity-50"></i>
+                                </div>
+                                <h1 class="fw-bold text-success mb-0 display-5">{{ profile.win_rate }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-4 z-index-1 position-relative">
+                        <div class="col-sm-6">
+                            <div class="p-4 rounded h-100" style="background: rgba(15,25,35,0.6); border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">KDA RATIO</p>
+                                    <i class="fas fa-skull text-info opacity-50"></i>
+                                </div>
+                                <h1 class="fw-bold text-info mb-0 display-5">{{ profile.kda }}</h1>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-4 rounded h-100" style="background: rgba(15,25,35,0.6); border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="text-muted mb-0 fw-bold" style="letter-spacing: 2px; font-size: 0.85rem;">MAIN ROLE</p>
+                                    <i class="fas fa-mask text-warning opacity-50"></i>
+                                </div>
+                                <h2 class="fw-bold text-warning mb-0 pt-2" style="font-size: 2.2rem;">DUELIST</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .col-sm-6 > .p-4:hover {
+        background: rgba(31, 41, 55, 0.9) !important;
+        border-color: rgba(255, 70, 85, 0.3) !important;
+        transform: translateY(-3px);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap');
+
+:root {
+    --val-red: #ff4655;
+    --val-dark: #0f1923;
+    --val-gray: #1f2937;
+    --val-light-gray: #ece8e1;
+}
+
+body {
+    background-color: var(--val-dark);
+    /* Vibrant dark modern background */
+    background: radial-gradient(circle at 15% 50%, rgba(31, 41, 55, 0.8), rgba(15, 25, 35, 1) 50%, rgba(0, 0, 0, 1) 100%);
+    background-attachment: fixed;
+    color: var(--val-light-gray);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Typography for Headings (Valorant style) */
+h1, h2, h3, h4, h5, h6, .val-title {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Glassmorphism Cards */
+.val-card {
+    background: rgba(31, 41, 55, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 3px solid var(--val-red);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    padding: 2.5rem;
+    border-radius: 4px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    position: relative;
+}
+
+.val-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(255, 70, 85, 0.15);
+}
+
+/* Decorative corner */
+.val-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.05) 50%);
+}
+
+.stat-card:hover {
+    border-top: 3px solid white;
+}
+
+/* Valorant Button */
+.val-btn {
+    background-color: var(--val-red);
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    padding: 14px 30px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    border: 1px solid var(--val-red);
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.val-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: #ffffff;
+    z-index: -1;
+    transition: all 0.4s ease;
+}
+
+.val-btn:hover {
+    color: var(--val-red);
+    border-color: #ffffff;
+    box-shadow: 0 0 20px rgba(255, 70, 85, 0.6);
+}
+
+.val-btn:hover::before {
+    left: 0;
+}
+
+/* Inputs */
+.val-input {
+    background-color: rgba(15, 25, 35, 0.6) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    border-bottom: 2px solid #374151 !important;
+    color: #ffffff !important;
+    border-radius: 0 !important;
+    padding: 15px 18px !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease !important;
+}
+
+.val-input:focus {
+    background-color: rgba(15, 25, 35, 0.95) !important;
+    border-bottom: 2px solid var(--val-red) !important;
+    box-shadow: none !important;
+}
+
+.val-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+}
+
+/* Dropdown styling */
+.form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+.form-select option {
+    background-color: var(--val-dark);
+    color: white;
+}
+
+/* Form Labels */
+.val-label {
+    font-family: 'Oswald', sans-serif;
+    color: #9ca3af;
+    letter-spacing: 1.5px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+/* Sidebar */
+.sidebar {
+    background: rgba(15, 25, 35, 0.6);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    min-height: 100vh;
+    padding-top: 2rem;
+    position: sticky;
+    top: 0;
+}
+
+.nav-link.val-link {
+    color: #9ca3af;
+    padding: 18px 30px;
+    transition: all 0.3s ease;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    position: relative;
+}
+
+.nav-link.val-link i {
+    width: 25px;
+    text-align: center;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.nav-link.val-link:hover i {
+    transform: scale(1.2);
+}
+
+.nav-link.val-link:hover, .nav-link.val-link.active {
+    color: #ffffff;
+    background: linear-gradient(90deg, rgba(255,70,85,0.15) 0%, transparent 100%);
+    border-left: 4px solid var(--val-red);
+}
+
+.nav-link.val-link::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 6px solid var(--val-red);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.nav-link.val-link.active::after {
+    opacity: 1;
+}
+
+/* Tables */
+.val-table {
+    border-color: rgba(255,255,255,0.05);
+}
+.val-table th {
+    font-family: 'Oswald', sans-serif;
+    color: #9ca3af;
+    letter-spacing: 1.5px;
+    font-size: 0.95rem;
+    border-bottom: 2px solid var(--val-red) !important;
+    padding: 20px;
+    background: transparent;
+}
+.val-table td {
+    background-color: transparent;
+    color: white;
+    vertical-align: middle;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 1.05rem;
+}
+.val-table tr:hover td {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Animations */
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 70, 85, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 70, 85, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 70, 85, 0); }
+}
+
+/* Utilities */
+.text-primary-val { color: var(--val-red) !important; }
+.z-index-1 { z-index: 1; position: relative; }
