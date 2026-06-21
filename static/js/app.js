@@ -51,8 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
             orderBy("join_time", "asc")
         );
 
+        let isMatchFound = false;
+
         // onSnapshot digunakan untuk Realtime Update dari Firestore
         onSnapshot(q, (snapshot) => {
+            if (isMatchFound) return; // Jangan update UI lagi kalau match sudah terbentuk
+            
             queueTableBody.innerHTML = "";
             let count = 0;
             
@@ -88,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Logika Visual saat Queue Penuh
             if(count >= 4) {
+                isMatchFound = true; // Kunci UI agar tidak ke-reset
                 queueProgressBar.classList.remove('bg-primary-val');
                 queueProgressBar.classList.add('bg-success');
                 queueCount.classList.remove('bg-danger');

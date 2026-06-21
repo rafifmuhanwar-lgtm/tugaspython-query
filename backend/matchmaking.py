@@ -35,9 +35,21 @@ def join_queue_logic(username, rank):
         # Simpan ke Match History
         db.collection('matches').add(match_data)
 
-        # Hapus player dari Queue yang sudah masuk match
-        for doc_id in docs[:4]:
-            queue_ref.document(doc_id).delete()
+        # Hapus player dari Queue secara asynchronous dengan delay
+        # agar frontend sempat melihat antrian penuh (4/4) sebelum dihapus
+        import threading
+        import time
+        
+        def delete_players(doc_ids):
+            time.sleep(2.5) # Beri jeda 2.5 detik
+            queue_ref_thread = db.collection('queue')
+            for doc_id in doc_ids:
+                try:
+                    queue_ref_thread.document(doc_id).delete()
+                except Exception:
+                    pass
+                    
+        threading.Thread(target=delete_players, args=(docs[:4],)).start()
         
         return True, "Match Created!"
     
